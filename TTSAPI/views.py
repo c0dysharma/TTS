@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 
+from TTSAPI.models import TransformationInfo
 from TTSAPI.tasks import transform_task as transform
-
 
 
 class TTSView(APIView):
@@ -20,5 +20,11 @@ class TTSView(APIView):
         text = body['text']
 
         file_name = str(uuid.uuid4())+'.wav'
-        transform.generate_tts.delay(text, path.join('./', file_name))
+        output_filepath = path.join('./', file_name)
+
+        obj = TransformationInfo.objects.create(
+            text=text,
+            output_filepath=output_filepath)
+
+        transform.generate_tts.delay(obj.id)
         return Response('Working')
