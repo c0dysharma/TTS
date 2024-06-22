@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from TTSAPI.views import TTSDownloadView, TTSJobView, TTSView
+from TTSAPI.views import TTSDownloadView, TTSJobView, TTSJobsView, TTSView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tts/job/', TTSView.as_view()),
+    path('tts/jobs/', TTSJobsView.as_view()),
     path('tts/job/<uuid:pk>/', TTSJobView.as_view()),
     path('tts/job/download/<uuid:pk>/', TTSDownloadView.as_view())
 ]

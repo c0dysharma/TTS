@@ -40,6 +40,12 @@ class TTSJobView(APIView):
         return Response(TransformationInfoSerializer(job).data)
 
 
+class TTSJobsView(APIView):
+    def get(self, request):
+        jobs = TransformationInfo.objects.all()
+        return Response(TransformationInfoSerializer(jobs, many=True).data)
+
+
 class TTSDownloadView(APIView):
     def get(self, request, pk):
         job = get_object_or_404(TransformationInfo, pk=pk)
